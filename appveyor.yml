@@ -1,0 +1,26 @@
+image: windows-intel-oneapi
+
+# environment variables
+environment:
+  BUILD_TYPE: RelWithDebInfo
+  TOOLSET: Intel C++ Compiler 19.2
+  TOOLSET_PARENS: "Intel C++ Compiler 19.2"
+
+before_build:
+  - pwsh: Write-Output "Intel C++ Compiler 19.2"
+  - pwsh: Write-Output $env:TOOLSET
+  - pwsh: Write-Output "$env:TOOLSET"
+  - pwsh: Write-Output $env:TOOLSET_PARENS
+  - pwsh: Write-Output "$env:TOOLSET_PARENS"
+  - cmd: echo "Intel C++ Compiler 19.2"
+  - cmd: echo %TOOLSET%
+  - cmd: echo "%TOOLSET%"
+  - cmd: echo %TOOLSET_PARENS%
+  - cmd: echo "%TOOLSET_PARENS%"
+
+build_script:
+  - cmd: cmake -S . -B _build -T"Intel C++ Compiler 19.2"
+  - cmd: cmake --build _build --config %BUILD_TYPE%
+
+test_script:
+  - cmd: cd _build && ctest -C %BUILD_TYPE%
